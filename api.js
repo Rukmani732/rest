@@ -25,18 +25,24 @@ app.get('/mealtype',(req,res)=>{
         res.send(result)
     })
 });
-app.get('/restaurent',(req,res)=>{
-    var query={};
-    if(req.query.city){
-        query={city:req.query.city}
-    }else{
-        query={}
+app.get('/restaurents',(req,res) => {
+    var condition = {};
+    if(req.query.city && req.query.mealtype){
+        condition = {city:req.query.city,"type.mealtype":req.query.mealtype}
     }
-    db.collection('restaurent').find(query).toArray((err,result)=>{
+    else if(req.query.city){
+        condition={city:req.query.city}
+    } else if(req.query.mealtype){
+        condition={"type.mealtype":req.query.mealtype}
+    }
+    else{
+        condition={}
+    }
+    db.collection('restaurent').find(condition).toArray((err,result) => {
         if(err) throw err;
         res.send(result)
     })
-});
+})
 
 app.get('/cuisine',(req,res)=>{
     db.collection('cuisine').find({}).toArray((err,result)=>{
@@ -44,6 +50,49 @@ app.get('/cuisine',(req,res)=>{
         res.send(result)
     })
 });
+app.get('/restaurantdetails/:id',(req,res) => {
+    var query = {_id:req.params.id}
+    db.collection('restaurent').find(query).toArray((err,result) => {
+        res.send(result)
+    })
+});
+
+//RestaurentList
+app.get('/restaurantList/:mealtype',(req,res) => {
+    var condition = {};
+    if(req.query.cuisine){
+        condition={"type.mealtype":req.params.mealtype,"Cuisine.cuisine":req.query.cuisine}
+    }else if(req.query.city){
+        condition={"type.mealtype":req.params.mealtype,city:req.query.city}
+    }else if(req.query.lcost && req.query.hcost){
+        condition={"type.mealtype":req.params.mealtype,cost:{$lt:Number(req.query.hcost),$gt:Number(req.query.lcost)}}
+    }
+    else{
+        condition= {"type.mealtype":req.params.mealtype}
+    }
+    db.collection('restaurent').find(condition).toArray((err,result) => {
+        if(err) throw err;
+        res.send(result)
+    })
+});
+
+//PlaceOrder
+app.post('/placeorder',(req,res) => {
+    console.log(req.body);
+    db.collection('orders').insert(req.body,(err,result) => {
+        if(err) throw err;
+        res.send('posted')
+    })
+});
+
+//order
+app.get('/orders',(req,res) => {
+    db.collection('orders').find({}).toArray((err,result) => {
+        if(err) throw err;
+        res.send(result)
+    })
+});
+
 
 
 
