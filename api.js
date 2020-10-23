@@ -10,7 +10,7 @@ var db;
 
 app.use(cors());
 app.get('/',(req,res)=>{
-    res.send(`<a href="http://localhost:8700/location" target="_blank">City</a> <br/> <a href="http://localhost:8700/mealtype" target="_blank">Mealtype</a> <br/> <a href="http://localhost:8700/restaurent" target="_blank">Restaurent</a> <br/> <a href="http://localhost:8700/cuisine" target="_blank">Cuisine</a>`)
+    res.send(`<a href="http://localhost:8700/location" target="_blank">City</a> <br/> <a href="http://localhost:8700/mealtype" target="_blank">Mealtype</a> <br/> <a href="http://localhost:8700/restaurents" target="_blank">Restaurent</a> <br/> <a href="http://localhost:8700/cuisine" target="_blank">Cuisine</a>`)
 });
 
 app.get('/location',(req,res)=>{
