@@ -93,6 +93,27 @@ app.get('/orders',(req,res) => {
     })
 });
 
+//Delete Orders
+app.delete('/deleteorders',(req,res) => {
+    db.collection('orders').remove({_id:req.body.id},(err,result) => {
+        if(err) throw err;
+        res.send('data deleted')
+    })
+})
+
+//Update orders
+app.put('/updateorders',(req,res) => {
+    db.collection('orders').update({_id:req.body._id},
+        {
+            $set:{
+                name:req.body.name,
+                address:req.body.address
+            }
+        },(err,result) => {
+            if(err) throw err;
+            res.send('data updated')
+        })
+})
 
 
 
