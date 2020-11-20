@@ -4,8 +4,8 @@
   "description": "practice for mongo",
   "main": "api.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node api.js",
+    "dev": "nodemon api.js"
   },
   "keywords": [
     "node",
